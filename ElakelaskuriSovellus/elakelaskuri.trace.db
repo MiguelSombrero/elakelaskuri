@@ -1,0 +1,65 @@
+2019-02-23 10:47:24 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE ELINAIKAKERROIN ( SYNTYMAVUOSI INTEGER PRIMARY KEY, ELINAIKAKERROIN NUMERIC(6,5), VAHVISTETTU BOOLEAN ) CREATE[*] TABLE ELAKEIKA ( SYNTYMAVUOSI INTEGER PRIMARY KEY, VUODET INTEGER, KUUKAUDET INTEGER, VAHVISTETTU BOOLEAN ) CREATE TABLE HENKILO ( ID INTEGER AUTO_INCREMENT PRIMARY KEY, SYNTYMAVUOSI INTEGER, SYNTYMAKUUKAUSI INTEGER, KARTTUNUTELAKE INTEGER, KUUKAUSIANSIOT INTEGER ) CREATE TABLE LASKELMA ( ID INTEGER AUTO_INCREMENT PRIMARY KEY, HENKILO_ID INTEGER, ELAKELAJI VARCHAR(20), MAARA INTEGER, FOREIGN KEY (HENKILO_ID) REFERENCES HENKILO(ID) )  "; SQL statement:
+CREATE TABLE Elinaikakerroin ( syntymavuosi INTEGER PRIMARY KEY, elinaikakerroin NUMERIC(6,5), vahvistettu BOOLEAN ) CREATE TABLE Elakeika ( syntymavuosi INTEGER PRIMARY KEY, vuodet INTEGER, kuukaudet INTEGER, vahvistettu BOOLEAN ) CREATE TABLE Henkilo ( id INTEGER AUTO_INCREMENT PRIMARY KEY, syntymavuosi INTEGER, syntymakuukausi INTEGER, karttunutElake INTEGER, kuukausiansiot INTEGER ) CREATE TABLE Laskelma ( id INTEGER AUTO_INCREMENT PRIMARY KEY, henkilo_id INTEGER, elakelaji VARCHAR(20), maara INTEGER, FOREIGN KEY (henkilo_id) REFERENCES Henkilo(id) )  [42000-197]
+2019-02-23 10:49:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Data conversion error converting "'1,00000' (ELINAIKAKERROIN: ELINAIKAKERROIN NUMERIC(6, 5))"; SQL statement:
+INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES (1947, '1,00000', true) -- (1947, '1,00000', TRUE) [22018-197]
+2019-02-23 15:31:16 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:/Users/miika/Projektit/Elakelaskuri/ElakelaskuriSovellus/elakelaskuri.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:307)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:95)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2506)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:383)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:364)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2934)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:155)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:100)
+	at org.h2.engine.Database.getPageStore(Database.java:2538)
+	at org.h2.engine.Database.open(Database.java:709)
+	at org.h2.engine.Database.openDatabase(Database.java:286)
+	at org.h2.engine.Database.<init>(Database.java:280)
+	at org.h2.engine.Engine.openSession(Engine.java:66)
+	at org.h2.engine.Engine.openSession(Engine.java:179)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:157)
+	at org.h2.engine.Engine.createSession(Engine.java:140)
+	at org.h2.engine.Engine.createSession(Engine.java:28)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:351)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:103)
+	at org.h2.Driver.connect(Driver.java:69)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:136)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:369)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:198)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:467)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:541)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:157)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:115)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:78)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:612)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:669)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:700)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:712)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:790)
+	at elakelaskurisovellus.dao.ElakeikaDao.read(ElakeikaDao.java:25)
+	at elakelaskurisovellus.Sovelluslogiikka.laskeElakearviot(Sovelluslogiikka.java:32)
+	at elakelaskurisovellus.kayttoliittyma.Tekstikayttoliittyma.laskeElakeArvio(Tekstikayttoliittyma.java:49)
+	at elakelaskurisovellus.kayttoliittyma.Tekstikayttoliittyma.laskuri(Tekstikayttoliittyma.java:30)
+	at elakelaskurisovellus.kayttoliittyma.Tekstikayttoliittyma.kaynnista(Tekstikayttoliittyma.java:18)
+	at elakelaskurisovellus.ElakelaskuriSovellus.run(ElakelaskuriSovellus.java:28)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at elakelaskurisovellus.ElakelaskuriSovellus.main(ElakelaskuriSovellus.java:16)
+Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: The file is locked: nio:/Users/miika/Projektit/Elakelaskuri/ElakelaskuriSovellus/elakelaskuri.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 49 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:/Users/miika/Projektit/Elakelaskuri/ElakelaskuriSovellus/elakelaskuri.mv.db [1.4.197/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:870)
+	at org.h2.mvstore.FileStore.open(FileStore.java:173)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
+	... 43 more
