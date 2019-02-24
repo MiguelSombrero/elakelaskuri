@@ -45,6 +45,7 @@ public class Elakeika {
     }
     
     public String toString () {
-        return "Eläkeikäsi on " + this.vuodet + " vuotta ja " + this.kuukaudet + " kuukautta";
+        if (this.vahvistettu) return "Eläkeikäsi on " + this.vuodet + " vuotta ja " + this.kuukaudet + " kuukautta";
+        else return "Arvioitu eläkeikäsi on " + this.vuodet + " vuotta ja " + this.kuukaudet + " kuukautta";
     }
 }

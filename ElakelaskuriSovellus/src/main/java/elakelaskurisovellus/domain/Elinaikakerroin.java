@@ -36,7 +36,8 @@ public class Elinaikakerroin {
     }
     
     public String toString () {
-        return "Elinaikakerroin on " + this.elinaikakerroin;
+        if (this.vahvistettu) return "Eläkettäsi pienentävä elinaikakerroin on " + this.elinaikakerroin;
+        else return "Eläkettäsi pienentävä arvioitu elinaikakerroin on " + this.elinaikakerroin;
     }
     
 }

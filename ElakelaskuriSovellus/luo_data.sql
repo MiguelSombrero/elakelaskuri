@@ -39,7 +39,7 @@ INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES 
 INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES (1984, 0.82700, false);
 INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES (1985, 0.82400, false);
 	
--- arvioita jatkuu pidemmällekin lisää tarvittaessa loputkin ikaluokat!!
+-- arvioituja kertoimia jatkuu pidemmällekin - lisää tarvittaessa!!
 
 INSERT INTO Elakeika (syntymavuosi, vuodet, kuukaudet, vahvistettu) VALUES (1954, 63, 00, true);
 INSERT INTO Elakeika (syntymavuosi, vuodet, kuukaudet, vahvistettu) VALUES (1955, 63, 03, true);

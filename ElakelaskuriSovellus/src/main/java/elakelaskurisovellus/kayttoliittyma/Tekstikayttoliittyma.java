@@ -14,11 +14,11 @@ public class Tekstikayttoliittyma {
     Sovelluslogiikka laskuri;
     
     public void kaynnista (Scanner s) throws SQLException {
-        System.out.println("ELÄKELASKURI 1.0");
-        laskuri(s);
+        System.out.println("ELÄKELASKURI 1.1");
+        kaynnistaLaskuri(s);
     }
     
-    public void laskuri (Scanner s) throws SQLException {
+    public void kaynnistaLaskuri (Scanner s) throws SQLException {
         while (true) {
             tulostaToiminnot();
             String komento = s.nextLine();

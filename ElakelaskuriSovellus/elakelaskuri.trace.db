@@ -63,3 +63,6 @@ Caused by: java.lang.IllegalStateException: The file is locked: nio:/Users/miika
 	at org.h2.mvstore.FileStore.open(FileStore.java:173)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
 	... 43 more
+2019-02-24 10:05:31 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Data conversion error converting "'1,00000' (ELINAIKAKERROIN: ELINAIKAKERROIN NUMERIC(6, 5))"; SQL statement:
+INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES (1947, '1,00000', true) -- (1947, '1,00000', TRUE) [22018-197]
