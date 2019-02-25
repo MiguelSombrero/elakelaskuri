@@ -8,7 +8,12 @@ public class Elinaikakerroin {
     private boolean vahvistettu;
     
     public Elinaikakerroin () {
-        
+    }
+    
+    public Elinaikakerroin (Integer syntymavuosi, double elinaikakerroin, boolean vahvistettu) {
+        this.syntymavuosi = syntymavuosi;
+        this.elinaikakerroin = elinaikakerroin;
+        this.vahvistettu = vahvistettu;
     }
     
     public Integer getSyntymavuosi () {

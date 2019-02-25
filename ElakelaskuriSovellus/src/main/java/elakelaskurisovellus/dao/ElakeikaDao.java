@@ -22,6 +22,9 @@ public class ElakeikaDao implements Dao<Elakeika, Integer> {
 
     @Override
     public Elakeika read(Integer key) throws SQLException {
+        if (key < 1954) return new Elakeika(key, 63, 0, false);
+        else if (key > 1997) return new Elakeika(key, 68, 0, false);
+        
         return yhteys.queryForObject(
                 "SELECT * FROM Elakeika WHERE syntymavuosi = ?",
                 new BeanPropertyRowMapper<>(Elakeika.class), key

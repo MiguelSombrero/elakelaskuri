@@ -2,6 +2,7 @@
 package elakelaskurisovellus.kayttoliittyma;
 
 import elakelaskurisovellus.Sovelluslogiikka;
+import elakelaskurisovellus.domain.Henkilo;
 import java.sql.SQLException;
 import java.util.Scanner;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class Tekstikayttoliittyma {
         System.out.println("Anna kuukausipalkkasi euroina: ");
         int ansiot = Integer.valueOf(s.nextLine());
         
-        laskuri.laskeElakearviot(vuosi, kuukausi, karttunut, ansiot);
+        laskuri.laskeElakearviot(new Henkilo(vuosi, kuukausi, karttunut, ansiot));
     }
     
     public void tarkistaElakeika (Scanner s) throws SQLException {

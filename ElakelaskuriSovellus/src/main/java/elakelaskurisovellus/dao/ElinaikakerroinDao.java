@@ -1,8 +1,7 @@
 
 package elakelaskurisovellus.dao;
 
-import elakelaskurisovellus.domain.Elakeika;
-import elakelaskurisovellus.domain.Elinaikakerroin;
+import elakelaskurisovellus.domain.*;
 import java.sql.SQLException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +22,13 @@ public class ElinaikakerroinDao implements Dao<Elinaikakerroin, Integer> {
 
     @Override
     public Elinaikakerroin read(Integer key) throws SQLException {
-        return yhteys.queryForObject(
+        Elinaikakerroin eak = yhteys.queryForObject(
                 "SELECT * FROM Elinaikakerroin WHERE syntymavuosi = ?",
                 new BeanPropertyRowMapper<>(Elinaikakerroin.class), key
         );
+        
+        if (eak == null) return new Elinaikakerroin(key, 1.00000, false);
+        return eak;
     }
 
     @Override

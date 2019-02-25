@@ -89,6 +89,6 @@ public class Laskelma {
     
     public String toString () {
         return "Eläkearvio " + this.ikavuodet + " vuoden ja " + this.ikakuukaudet + " kuukauden iässä, alkamispäivällä " + this.alkamispaiva + " on noin:\n" +
-               this.maara + " euroa kuukaudessa";
+               this.maara + " euroa kuukaudessa. Lykkäyskuukaudet: " + this.lykkayskuukaudet;
     }
 }

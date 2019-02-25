@@ -9,7 +9,13 @@ public class Elakeika {
     private boolean vahvistettu;
     
     public Elakeika () {
-        
+    }
+    
+    public Elakeika (Integer syntymavuosi, Integer vuodet, Integer kuukaudet, boolean vahvistettu) {
+        this.syntymavuosi = syntymavuosi;
+        this.vuodet = vuodet;
+        this.kuukaudet = kuukaudet;
+        this.vahvistettu = vahvistettu;
     }
     
     public Integer getSyntymavuosi () {

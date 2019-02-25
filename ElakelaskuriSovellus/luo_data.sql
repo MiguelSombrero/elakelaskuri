@@ -38,8 +38,17 @@ INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES 
 INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES (1983, 0.83000, false);
 INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES (1984, 0.82700, false);
 INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES (1985, 0.82400, false);
-	
--- arvioituja kertoimia jatkuu pidemmällekin - lisää tarvittaessa!!
+INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES (1986, 0.82100, false);
+INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES (1987, 0.81700, false);
+INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES (1988, 0.81400, false);
+INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES (1989, 0.81200, false);
+INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES (1990, 0.80900, false);
+INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES (1991, 0.80600, false);
+INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES (1992, 0.80300, false);
+INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES (1993, 0.80000, false);
+INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES (1994, 0.79800, false);
+INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES (1995, 0.79500, false);
+INSERT INTO Elinaikakerroin (syntymavuosi, Elinaikakerroin, vahvistettu) VALUES (1996, 0.79300, false);
 
 INSERT INTO Elakeika (syntymavuosi, vuodet, kuukaudet, vahvistettu) VALUES (1954, 63, 00, true);
 INSERT INTO Elakeika (syntymavuosi, vuodet, kuukaudet, vahvistettu) VALUES (1955, 63, 03, true);
