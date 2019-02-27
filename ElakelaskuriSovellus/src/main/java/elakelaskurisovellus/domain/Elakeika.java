@@ -6,15 +6,17 @@ public class Elakeika {
     private Integer syntymavuosi;
     private Integer vuodet;
     private Integer kuukaudet;
+    private Integer ylaraja;
     private boolean vahvistettu;
     
     public Elakeika () {
     }
     
-    public Elakeika (Integer syntymavuosi, Integer vuodet, Integer kuukaudet, boolean vahvistettu) {
+    public Elakeika (Integer syntymavuosi, Integer vuodet, Integer kuukaudet, Integer ylaraja, boolean vahvistettu) {
         this.syntymavuosi = syntymavuosi;
         this.vuodet = vuodet;
         this.kuukaudet = kuukaudet;
+        this.ylaraja = ylaraja;
         this.vahvistettu = vahvistettu;
     }
     
@@ -28,6 +30,10 @@ public class Elakeika {
     
     public Integer getKuukaudet () {
         return this.kuukaudet;
+    }
+    
+    public Integer getYlaraja () {
+        return this.ylaraja;
     }
     
     public boolean getVahvistettu () {
@@ -44,6 +50,10 @@ public class Elakeika {
     
     public void setKuukaudet (Integer kuukaudet) {
         this.kuukaudet = kuukaudet;
+    }
+    
+    public void setYlaraja (Integer ylaraja) {
+        this.ylaraja = ylaraja;
     }
     
     public void setVahvistettu (boolean vahvistettu) {

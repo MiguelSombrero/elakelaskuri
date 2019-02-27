@@ -1,0 +1,9 @@
+
+
+Mahdollisia ominaisuuksia jatkokehitykseen:
+
+- Osittaisen varhennetun vanhuuseläkkeen arviolaskenta, sekä sen jälkeisen vanhuuseläkearvion laskenta
+
+- Eläkekertymän laskeminen ja eri laskelmien eläkekertymien vertailu
+
+- Kaikkien eläkeikien ja elinaikakertoimien listaaminen

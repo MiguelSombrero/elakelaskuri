@@ -13,15 +13,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ElakelaskuriSovellus implements CommandLineRunner {
     
-    public static void main (String args[]) {
-        SpringApplication.run(ElakelaskuriSovellus.class);
-    }
-    
     @Autowired
     Tekstikayttoliittyma kayttis;
     @Autowired
     LuoTietokantaDao tietokanta;
 
+    public static void main (String args[]) {
+        SpringApplication.run(ElakelaskuriSovellus.class);
+    }
+    
     @Override
     public void run(String... args) throws Exception {
         tietokanta.luoTietokanta();

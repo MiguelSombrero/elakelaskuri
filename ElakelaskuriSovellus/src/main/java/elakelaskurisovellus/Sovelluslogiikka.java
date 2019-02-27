@@ -2,10 +2,7 @@
 package elakelaskurisovellus;
 
 import elakelaskurisovellus.dao.*;
-import elakelaskurisovellus.domain.Elakeika;
-import elakelaskurisovellus.domain.Elinaikakerroin;
-import elakelaskurisovellus.domain.Henkilo;
-import elakelaskurisovellus.domain.Laskelma;
+import elakelaskurisovellus.domain.*;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -30,23 +27,63 @@ public class Sovelluslogiikka {
     public void laskeElakearviot (Henkilo henkilo) throws SQLException {
         Elakeika ika = elakeika.read(henkilo.getSyntymavuosi());
         Elinaikakerroin eak = elinaikakerroin.read(henkilo.getSyntymavuosi());
-        List<Laskelma> laskelmat = annaLaskelmat(3, henkilo, ika);
+        
+        Date alkuperainenAlkamispaiva = annaIanTayttamispaivaTaiKuluva(
+                henkilo.getSyntymavuosi(),
+                henkilo.getSyntymakuukausi(),
+                ika.getVuodet(),
+                ika.getKuukaudet(),
+                true);
+        
+        Date elakeianTayttamispaiva = annaIanTayttamispaivaTaiKuluva(
+                henkilo.getSyntymavuosi(),
+                henkilo.getSyntymakuukausi(),
+                ika.getVuodet(),
+                ika.getKuukaudet(),
+                false);
+        
+        Date ylaianTayttamispaiva = annaIanTayttamispaivaTaiKuluva(
+                henkilo.getSyntymavuosi(),
+                henkilo.getSyntymakuukausi(),
+                ika.getYlaraja(),
+                0,
+                false);
+        
+        Date tayttamispaiva53 = annaIanTayttamispaivaTaiKuluva(
+                henkilo.getSyntymavuosi(),
+                henkilo.getSyntymakuukausi(),
+                53,
+                0,
+                true);
+        
+        Date tayttamispaiva63 = annaIanTayttamispaivaTaiKuluva(
+                henkilo.getSyntymavuosi(),
+                henkilo.getSyntymakuukausi(),
+                63,
+                0,
+                true);
+        
+        List<Laskelma> laskelmat = annaLaskelmat(3, henkilo, ika, alkuperainenAlkamispaiva, elakeianTayttamispaiva, ylaianTayttamispaiva);
         
         System.out.println(ika.toString());
         
         for (Laskelma laskelma : laskelmat) {
-            System.out.println("\n" + laskeArvio(laskelma, henkilo, ika, eak).toString());
+            System.out.println("\n" + laskeArvio(laskelma, henkilo, ika, eak, tayttamispaiva53, tayttamispaiva63, ylaianTayttamispaiva).toString());
         }
     }
     
-    public List<Laskelma> annaLaskelmat (int montako, Henkilo henkilo, Elakeika ika) {
+    public List<Laskelma> annaLaskelmat (int montako, Henkilo henkilo, Elakeika ika, Date alkuperainenAlkamispaiva, Date elakeianTayttamispaiva, Date ylaianTayttamispaiva) {
         List<Laskelma> laskelmat = new ArrayList<>();
-        Date alkuperainenAlkamispaiva = annaIanTayttamispaivaTaiKuluva(henkilo.getSyntymavuosi(), henkilo.getSyntymakuukausi(), ika.getVuodet(), ika.getKuukaudet(), true);
-        Date elakeIanTayttamispaiva = annaIanTayttamispaivaTaiKuluva(henkilo.getSyntymavuosi(), henkilo.getSyntymakuukausi(), ika.getVuodet(), ika.getKuukaudet(), false);
         
         for (int i = 0; i < montako; i++) {
             Date alku = Date.valueOf(alkuperainenAlkamispaiva.toLocalDate().plusYears(i));
-            int lykkayskuukaudet = annaKuukaudet(elakeIanTayttamispaiva, alku);
+            
+            int lykkayskuukaudet = annaKuukaudet(
+                    elakeianTayttamispaiva,
+                    alku,
+                    Date.valueOf("1900-01-01"),
+                    ylaianTayttamispaiva);
+            
             int ikaVuodet = ika.getVuodet() + lykkayskuukaudet/12;
             int ikaKuukaudet = ika.getKuukaudet() + lykkayskuukaudet%12;
             
@@ -56,15 +93,24 @@ public class Sovelluslogiikka {
         return laskelmat;
     }
     
-    public Laskelma laskeArvio (Laskelma laskelma, Henkilo henkilo, Elakeika ika, Elinaikakerroin eak) {
-        int kuukausiaAlkamiseen = annaKuukaudet(Date.valueOf(LocalDate.now()), laskelma.getAlkamispaiva());
-        int kk17 = annaKuukaudet17karttumaan(henkilo.getSyntymavuosi(), henkilo.getSyntymakuukausi());
+    public Laskelma laskeArvio (Laskelma laskelma, Henkilo henkilo, Elakeika ika, Elinaikakerroin eak, Date tayttamispaiva53, Date tayttamispaiva63, Date ylaianTayttamispaiva) {
+        int kuukausiaAlkamiseen = annaKuukaudet(
+                Date.valueOf(LocalDate.now()),
+                laskelma.getAlkamispaiva(),
+                Date.valueOf("1900-01-01"),
+                ylaianTayttamispaiva);
         
-        // lasketaan arvioidun eläkkeen määrä 1,7 % vuodessa, ansion korotus 2% vuodessa
-        double arvioituElake17 = henkilo.getPalkka() * 0.017 * kk17 / 12;
+        int kuukaudet17 = annaKuukaudet(
+                tayttamispaiva53,
+                tayttamispaiva63,
+                Date.valueOf(LocalDate.now()),
+                Date.valueOf("2025-12-31"));
         
-        // lasketaan arvioidun eläkkeen määrä 1,5 % vuodessa, ansion korotus 2% vuodessa
-        double arvioituElake15 = henkilo.getPalkka() * 0.015 * (kuukausiaAlkamiseen-kk17) / 12;
+        // lasketaan arvioidun eläkkeen määrä 1,7 % vuodessa
+        double arvioituElake17 = henkilo.getPalkka() * 0.017 * kuukaudet17 / 12;
+        
+        // lasketaan arvioidun eläkkeen määrä 1,5 % vuodessa
+        double arvioituElake15 = henkilo.getPalkka() * 0.015 * (kuukausiaAlkamiseen-kuukaudet17) / 12;
         
         // summataan arvioitu ja karttunut eläke, karttuneesta eläkkeestä poistetaan eak vaikutus
         double elakeYhteensa = arvioituElake15 + arvioituElake17 + henkilo.getKarttunutEläke() / eak.getElinaikakerroin();
@@ -80,24 +126,16 @@ public class Sovelluslogiikka {
         return laskelma;
     }
     
-    public int annaKuukaudet (Date mista, Date mihin) {
-        Period vali = Period.between(mista.toLocalDate(), mihin.toLocalDate());
+    public int annaKuukaudet (Date mista, Date mihin, Date min, Date max) {
+        Date alku = min;
+        Date loppu = max;
+        
+        if (alku.before(mista)) alku = mista;
+        if (loppu.after(mihin)) loppu = mihin;
+        
+        Period vali = Period.between(alku.toLocalDate(), loppu.toLocalDate());
+        
         return (12 * vali.getYears() + vali.getMonths());
-    }
-    
-    public int annaKuukaudet17karttumaan(int syntymavuosi, int syntymakuukausi) {
-        Date tayttamispaiva53 = annaIanTayttamispaivaTaiKuluva(syntymavuosi, syntymakuukausi, 53, 0, true);
-        Date tayttamispaiva63 = annaIanTayttamispaivaTaiKuluva(syntymavuosi, syntymakuukausi, 63, 0, true);
-        Date kuluva = Date.valueOf(LocalDate.now());
-        Date alku = tayttamispaiva53;
-        Date loppu = Date.valueOf("2025-01-01");
-        
-        if (tayttamispaiva53.before(kuluva)) alku = kuluva;
-        if (tayttamispaiva63.before(Date.valueOf("2025-01-01"))) loppu = tayttamispaiva63;
-        
-        Period aikavali = Period.between(alku.toLocalDate(), loppu.toLocalDate());
-        
-        return Math.max(0, 12 * aikavali.getYears() + aikavali.getMonths() + 1);
     }
     
     public Date annaIanTayttamispaivaTaiKuluva (int syntymavuosi, int syntymakuukausi, int ikavuodet, int ikakuukaudet, boolean vahintaan) {
@@ -110,8 +148,15 @@ public class Sovelluslogiikka {
             alkamisKuukausi %= 12;
         }
         
-        // ei toimi joulukuussa, muuta
-        Date kuluva = Date.valueOf(LocalDate.now().getYear() + "-" + (LocalDate.now().getMonthValue()+1) + "-01");
+        int kuluvaVuosi = LocalDate.now().getYear();
+        int kuluvaKuukausi = LocalDate.now().getMonthValue() + 1;
+        
+        if (kuluvaKuukausi > 12) {
+            kuluvaVuosi++;
+            kuluvaKuukausi %= 12;
+        }
+        
+        Date kuluva = Date.valueOf(kuluvaVuosi + "-" + kuluvaKuukausi + "-01");
         Date tayttamispaiva = Date.valueOf(alkamisVuosi + "-" + alkamisKuukausi + "-01");
         
         if (vahintaan && tayttamispaiva.before(kuluva)) return kuluva;

@@ -2,6 +2,7 @@
 package elakelaskurisovellus.domain;
 
 import java.sql.Date;
+import java.time.format.DateTimeFormatter;
 
 public class Laskelma {
     
@@ -88,7 +89,8 @@ public class Laskelma {
     }
     
     public String toString () {
-        return "Eläkearvio " + this.ikavuodet + " vuoden ja " + this.ikakuukaudet + " kuukauden iässä, alkamispäivällä " + this.alkamispaiva + " on noin:\n" +
+        return "Eläkearvio " + this.ikavuodet + " vuoden ja " + this.ikakuukaudet +
+                " kuukauden iässä, alkamispäivällä " + this.alkamispaiva.toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + " on noin:\n" +
                this.maara + " euroa kuukaudessa. Lykkäyskuukaudet: " + this.lykkayskuukaudet;
     }
 }

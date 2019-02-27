@@ -19,12 +19,12 @@ public class LuoTietokantaDao {
     public void luoTietokanta () {
         try (Connection tietokanta = DriverManager.getConnection("jdbc:h2:./elakelaskuri", "sa", "")) {
             DatabaseMetaData meta = tietokanta.getMetaData();
-            ResultSet taulu = meta.getTables(null, null, "Elakeika", null);
+            ResultSet taulu = meta.getTables(null, null, "ELAKEIKA", null);
             
             if (!taulu.next()) {
                 ScriptUtils.executeSqlScript(tietokanta, new FileSystemResource("./luo_tietokanta.sql"));
                 ScriptUtils.executeSqlScript(tietokanta, new FileSystemResource("./luo_data.sql"));
-                System.out.println("Elinaikakerroin- ja Elakeika taulut luotiin");
+                System.out.println("Luotiin tietokanta eläkeikää ja elinaikakerrointa varten");
             }
         }
         catch (SQLException e) {

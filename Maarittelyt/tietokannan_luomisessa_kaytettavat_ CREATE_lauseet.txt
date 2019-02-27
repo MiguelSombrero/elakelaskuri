@@ -10,12 +10,6 @@ CREATE TABLE Elakeika (
     syntymavuosi INTEGER PRIMARY KEY,
     vuodet INTEGER,
     kuukaudet INTEGER,
+    ylaraja INTEGER,
     vahvistettu BOOLEAN
 );
-
-CREATE TABLE Laskelma (
-    id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    elakelaji VARCHAR(20),
-    maara INTEGER
-);
-
