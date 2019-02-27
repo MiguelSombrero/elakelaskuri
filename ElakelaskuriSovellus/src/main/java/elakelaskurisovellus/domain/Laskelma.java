@@ -13,12 +13,14 @@ public class Laskelma {
     private Integer lykkayskuukaudet;
     private Integer ikavuodet;
     private Integer ikakuukaudet;
+    private Integer kuukaudet17karttumaan;
+    private Integer kuukaudet15karttumaan;
     
     public Laskelma () {
         
     }
     
-    public Laskelma (Integer id, String elakelaji, Date alkamispaiva, Integer maara, Integer lykkayskuukaudet, Integer ikavuodet, Integer ikakuukaudet) {
+    public Laskelma (Integer id, String elakelaji, Date alkamispaiva, Integer maara, Integer lykkayskuukaudet, Integer ikavuodet, Integer ikakuukaudet, Integer kuukaudet17karttumaan, Integer kuukaudet15karttumaan) {
         this.id = id;
         this.elakelaji = elakelaji;
         this.alkamispaiva = alkamispaiva;
@@ -26,10 +28,12 @@ public class Laskelma {
         this.lykkayskuukaudet = lykkayskuukaudet;
         this.ikavuodet = ikavuodet;
         this.ikakuukaudet = ikakuukaudet;
+        this.kuukaudet15karttumaan = kuukaudet15karttumaan;
+        this.kuukaudet17karttumaan = kuukaudet17karttumaan;
     }
     
-    public Laskelma (String elakelaji, Date alkamispaiva, Integer maara, Integer lykkayskuukaudet, Integer ikavuodet, Integer ikakuukaudet) {
-        this(null, elakelaji, alkamispaiva, maara, lykkayskuukaudet, ikavuodet, ikakuukaudet);
+    public Laskelma (String elakelaji, Date alkamispaiva, Integer maara, Integer lykkayskuukaudet, Integer ikavuodet, Integer ikakuukaudet, Integer kuukaudet17karttumaan, Integer kuukaudet15karttumaan) {
+        this(null, elakelaji, alkamispaiva, maara, lykkayskuukaudet, ikavuodet, ikakuukaudet, kuukaudet17karttumaan, kuukaudet15karttumaan);
     }
     
     public void setElakelaji (String elakelaji) {
@@ -60,6 +64,14 @@ public class Laskelma {
         this.ikakuukaudet = ikakuukaudet;
     }
     
+    public void setKuukaudet17karttumaan (Integer kuukaudet17) {
+        this.kuukaudet17karttumaan = kuukaudet17;
+    }
+    
+    public void setKuukaudet15karttumaan (Integer kuukaudet15) {
+        this.kuukaudet15karttumaan = kuukaudet15;
+    }
+    
     public String getElakelaji () {
         return this.elakelaji;
     }
@@ -88,9 +100,17 @@ public class Laskelma {
         return this.ikakuukaudet;
     }
     
+    public Integer getKuukaudet17karttumaan () {
+        return this.kuukaudet17karttumaan;
+    }
+    
+    public Integer getKuukaudet15karttumaan () {
+        return this.kuukaudet15karttumaan;
+    }
+    
     public String toString () {
         return "Eläkearvio " + this.ikavuodet + " vuoden ja " + this.ikakuukaudet +
                 " kuukauden iässä, alkamispäivällä " + this.alkamispaiva.toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + " on noin:\n" +
-               this.maara + " euroa kuukaudessa. Lykkäyskuukaudet: " + this.lykkayskuukaudet;
+               this.maara + " euroa kuukaudessa.";
     }
 }

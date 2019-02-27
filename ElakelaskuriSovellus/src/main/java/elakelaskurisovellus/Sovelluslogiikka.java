@@ -63,54 +63,61 @@ public class Sovelluslogiikka {
                 0,
                 true);
         
-        List<Laskelma> laskelmat = annaLaskelmat(3, henkilo, ika, alkuperainenAlkamispaiva, elakeianTayttamispaiva, ylaianTayttamispaiva);
+        List<Laskelma> laskelmat = annaLaskelmat(3, henkilo, ika, alkuperainenAlkamispaiva, elakeianTayttamispaiva, ylaianTayttamispaiva, tayttamispaiva53, tayttamispaiva63);
         
         System.out.println(ika.toString());
         
         for (Laskelma laskelma : laskelmat) {
-            System.out.println("\n" + laskeArvio(laskelma, henkilo, ika, eak, tayttamispaiva53, tayttamispaiva63, ylaianTayttamispaiva).toString());
+            System.out.println("\n" + laskeArvio(laskelma, henkilo, ika, eak, ylaianTayttamispaiva).toString());
         }
     }
     
-    public List<Laskelma> annaLaskelmat (int montako, Henkilo henkilo, Elakeika ika, Date alkuperainenAlkamispaiva, Date elakeianTayttamispaiva, Date ylaianTayttamispaiva) {
+    public List<Laskelma> annaLaskelmat (int montako, Henkilo henkilo, Elakeika ika, Date alkuperainenAlkamispaiva, Date elakeianTayttamispaiva, Date ylaianTayttamispaiva, Date tayttamispaiva53, Date tayttamispaiva63) {
         List<Laskelma> laskelmat = new ArrayList<>();
         
         for (int i = 0; i < montako; i++) {
             Date alku = Date.valueOf(alkuperainenAlkamispaiva.toLocalDate().plusYears(i));
             
+            int kuukaudet17 = annaKuukaudet(
+                    tayttamispaiva53,
+                    tayttamispaiva63,
+                    Date.valueOf(LocalDate.now()),
+                    Date.valueOf("2025-12-31"));
+        
+            int kuukaudet15 = annaKuukaudet(
+                    Date.valueOf(LocalDate.now().getYear() + "-01-01"),
+                    alku,
+                    Date.valueOf("1900-01-01"),
+                    ylaianTayttamispaiva) - kuukaudet17;
+        
             int lykkayskuukaudet = annaKuukaudet(
                     elakeianTayttamispaiva,
                     alku,
                     Date.valueOf("1900-01-01"),
                     ylaianTayttamispaiva);
             
-            int ikaVuodet = ika.getVuodet() + lykkayskuukaudet/12;
-            int ikaKuukaudet = ika.getKuukaudet() + lykkayskuukaudet%12;
+            int ikaKuukausina = annaKuukaudet (
+                    Date.valueOf(henkilo.getSyntymavuosi() + "-" + henkilo.getSyntymakuukausi() + "-01"),
+                    alku,
+                    Date.valueOf("1900-01-01"),
+                    Date.valueOf("2999-01-01")) - 1;
             
-            laskelmat.add(new Laskelma("Vanhuuseläke", alku, 0, lykkayskuukaudet, ikaVuodet, ikaKuukaudet));
+            int ikaVuodet = ikaKuukausina / 12;
+            int ikaKuukaudet = ikaKuukausina % 12;
+            
+            laskelmat.add(new Laskelma("Vanhuuseläke", alku, 0, lykkayskuukaudet, ikaVuodet, ikaKuukaudet, kuukaudet17, kuukaudet15));
         }
             
         return laskelmat;
     }
     
-    public Laskelma laskeArvio (Laskelma laskelma, Henkilo henkilo, Elakeika ika, Elinaikakerroin eak, Date tayttamispaiva53, Date tayttamispaiva63, Date ylaianTayttamispaiva) {
-        int kuukausiaAlkamiseen = annaKuukaudet(
-                Date.valueOf(LocalDate.now()),
-                laskelma.getAlkamispaiva(),
-                Date.valueOf("1900-01-01"),
-                ylaianTayttamispaiva);
-        
-        int kuukaudet17 = annaKuukaudet(
-                tayttamispaiva53,
-                tayttamispaiva63,
-                Date.valueOf(LocalDate.now()),
-                Date.valueOf("2025-12-31"));
+    public Laskelma laskeArvio (Laskelma laskelma, Henkilo henkilo, Elakeika ika, Elinaikakerroin eak, Date ylaianTayttamispaiva) {
         
         // lasketaan arvioidun eläkkeen määrä 1,7 % vuodessa
-        double arvioituElake17 = henkilo.getPalkka() * 0.017 * kuukaudet17 / 12;
+        double arvioituElake17 = henkilo.getPalkka() * 0.017 * laskelma.getKuukaudet17karttumaan() / 12;
         
         // lasketaan arvioidun eläkkeen määrä 1,5 % vuodessa
-        double arvioituElake15 = henkilo.getPalkka() * 0.015 * (kuukausiaAlkamiseen-kuukaudet17) / 12;
+        double arvioituElake15 = henkilo.getPalkka() * 0.015 * laskelma.getKuukaudet15karttumaan() / 12;
         
         // summataan arvioitu ja karttunut eläke, karttuneesta eläkkeestä poistetaan eak vaikutus
         double elakeYhteensa = arvioituElake15 + arvioituElake17 + henkilo.getKarttunutEläke() / eak.getElinaikakerroin();

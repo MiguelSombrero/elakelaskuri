@@ -3,7 +3,6 @@ package elakelaskurisovellus;
 
 import elakelaskurisovellus.dao.LuoTietokantaDao;
 import elakelaskurisovellus.kayttoliittyma.Tekstikayttoliittyma;
-import java.sql.SQLException;
 import java.util.Scanner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

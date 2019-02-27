@@ -15,7 +15,7 @@ public class Tekstikayttoliittyma {
     Sovelluslogiikka laskuri;
     
     public void kaynnista (Scanner s) throws SQLException {
-        System.out.println("ELÄKELASKURI 1.1");
+        System.out.println("ELÄKELASKURI 1.0");
         kaynnistaLaskuri(s);
     }
     
@@ -42,9 +42,9 @@ public class Tekstikayttoliittyma {
         int vuosi = Integer.valueOf(s.nextLine());
         System.out.println("Anna syntymäkuukausi: [kk]");
         int kuukausi = Integer.valueOf(s.nextLine());
-        System.out.println("Anna tähän mennessä karttunut eläke euroina: ");
+        System.out.println("Anna viime vuoden loppuun mennessä karttunut eläke euroina (työeläkeotteelta): ");
         int karttunut = Integer.valueOf(s.nextLine());
-        System.out.println("Anna kuukausipalkkasi euroina: ");
+        System.out.println("Anna kuukausipalkkasi euroina (brutto): ");
         int ansiot = Integer.valueOf(s.nextLine());
         
         laskuri.laskeElakearviot(new Henkilo(vuosi, kuukausi, karttunut, ansiot));

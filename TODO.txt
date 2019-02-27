@@ -6,4 +6,4 @@ Mahdollisia ominaisuuksia jatkokehitykseen:
 
 - Eläkekertymän laskeminen ja eri laskelmien eläkekertymien vertailu
 
-- Kaikkien eläkeikien ja elinaikakertoimien listaaminen
+- Toiminnallisuus, joka listaa kaikki eläkeiät ja elinaikakertoimet ikäluokittain
